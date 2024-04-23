@@ -33,7 +33,7 @@ requirements:
 tests:
 - files:
     source:
-    - examples
+    - examples/
   script:
   - rattler_build_test examples/resource_file_1.txt
 - python:
