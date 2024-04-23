@@ -1,0 +1,96 @@
+[build-system]
+requires = [
+    "setuptools>=64",
+    "setuptools_scm[toml]>=8",
+    "wheel"
+]
+build-backend = "setuptools.build_meta"
+
+[options]
+packages = { find = { where = "src", exclude = ["tests"] } }
+include_package_data = true
+package_dir = { "" = "src" }
+zip_safe = false
+
+[tool.aliases]
+build = "bdist_wheel"
+release = "build upload"
+
+[tool.bdist_wheel]
+universal = 0
+
+[project]
+name = "rattler_build_test"
+description = "Test project for rattler build."
+authors = [
+    {name = "Markus Binsteiner", email = "markus@frkl.io"}
+]
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "MPL-2.0"}
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Development Status :: 3 - Alpha",
+    "License :: OSI Approved :: Mozilla Public License 2.0 (MPL 2.0)",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12"
+]
+dependencies = [
+    "click",
+    "python-dateutil>=2.8.0",
+]
+
+dynamic = ["version"]
+
+[project.scripts]
+rattler_build_test = "rattler_build_test.cli:cli"
+
+
+[project.optional-dependencies]
+dev_testing = [
+    "pytest",
+]
+[project.urls]
+homepage = "https://github.com/frkl-dev/rattler-build-test"
+repository = "https://github.com/frkl-dev/rattler-build-test"
+
+[tool.setuptools_scm]
+write_to = "src/rattler_build_test/version.txt"
+
+[tool.pytest.ini_options]
+pythonpath = [
+    "src"
+]
+addopts = "--verbose"
+norecursedirs = [
+    "dist",
+    "build",
+    ".tox"
+]
+testpaths = ["tests"]
+
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+mypy_path = "src"
+namespace_packages = false
+plugins = [
+    "pydantic.mypy"
+]
+
+
+# mypy per-module options:
+[[tool.mypy.overrides]]
+module = [
+    "appdirs.*",
+    "pyarrow.*",
+    "ruamel.*"
+]
+ignore_missing_imports = true

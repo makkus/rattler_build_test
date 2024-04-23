@@ -1,0 +1,53 @@
+context:
+  name: "rattler-build-test"
+  version: "0.0.1"
+
+package:
+  name: "${{ name }}"
+  version: "${{ version }}"
+
+source:
+  path: "../"
+
+build:
+  number: 1
+  noarch: python
+  script: 'python -m pip install --no-deps --ignore-installed .'
+  python:
+    entry_points:
+     - rattler_build_test = rattler_build_test.cli:cli
+
+
+requirements:
+  host:
+    - pip
+    - python
+    - setuptools
+    - setuptools_scm
+
+  run:
+    - python
+    - click
+
+
+tests:
+- files:
+    source:
+    - examples
+  script:
+  - rattler_build_test examples/resource_file_1.txt
+- python:
+    pip_check: false
+    imports:
+    - rattler_build_test
+
+
+about:
+  homepage: https://github.com/frkl-dev/rattler-build-test
+  license: MPL-2.0
+  summary: Test project
+
+
+extra:
+  recipe-maintainers:
+    - frkl
